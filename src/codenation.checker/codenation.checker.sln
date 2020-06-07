@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{E712FB95-1A64-4E5C-B114-1053366C3CB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codenation.checker.Api", "codenation.checker.Api\codenation.checker.Api.csproj", "{ABEAE78A-2B14-487F-B2F6-4E3674AA20FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABEAE78A-2B14-487F-B2F6-4E3674AA20FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABEAE78A-2B14-487F-B2F6-4E3674AA20FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABEAE78A-2B14-487F-B2F6-4E3674AA20FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABEAE78A-2B14-487F-B2F6-4E3674AA20FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ABEAE78A-2B14-487F-B2F6-4E3674AA20FE} = {E712FB95-1A64-4E5C-B114-1053366C3CB8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4821B96-8EC8-48B1-AECD-C4A1F447F658}
+	EndGlobalSection
+EndGlobal
