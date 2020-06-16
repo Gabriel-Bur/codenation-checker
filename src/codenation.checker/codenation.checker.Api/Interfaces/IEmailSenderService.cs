@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace codenation.checker.Api.Interfaces
 {
-    public interface IEmailSender
+    public interface IEmailSenderService
     {
-        Task SendEmailTo(List<string> sendTo);
+        Task SendEmailToAll();
     }
 }

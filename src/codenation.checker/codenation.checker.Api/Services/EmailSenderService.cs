@@ -3,61 +3,64 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using codenation.checker.Api.Interfaces;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Linq;
 using System;
 using Microsoft.Extensions.Configuration;
 using codenation.checker.Api.Models;
+using codenation.checker.Api.Context;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using codenation.checker.Api.Domain;
 
 namespace codenation.checker.Api.Services
 {
-    public class EmailSenderService : IEmailSender
+    public class EmailSenderService : IEmailSenderService
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<EmailSenderService> _logger;
+        private readonly DatabaseContext _context;
         private readonly AppSettings _appSettings;
 
         public EmailSenderService(
-            ILogger<EmailSenderService> logger,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            DatabaseContext context)
         {
-            _logger = logger;
+            _context = context;
             _configuration = configuration;
             _appSettings = _configuration.GetSection("AppSettings").Get<AppSettings>();
 
         }
 
-        public async Task SendEmailTo(List<string> sendTo)
+        public async Task SendEmailToAll()
         {
             try
             {
-                var email = BuildEmail(sendTo);
+                var email = await BuildEmail();
 
-                using (var client = new SmtpClient())
-                {
-                    client.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
-                    client.Authenticate(_appSettings.EmailSender, _appSettings.EmailPassword);
-                    
-                    await client.SendAsync(email);
+                using var client = new SmtpClient();
+                client.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+                client.Authenticate(_appSettings.EmailSender, _appSettings.EmailPassword);
 
-                    client.Disconnect(true);
-                }
+                await client.SendAsync(email);
+
+                client.Disconnect(true);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
         }
 
-        private MimeMessage BuildEmail(List<string> addressList)
+        private async Task<MimeMessage> BuildEmail()
         {
+
+            var listOfEmails = await GetEmails();
             var message = new MimeMessage();
+            
             message.From.Add(new MailboxAddress("Codenation", "mailtosender10@gmail.com"));
 
-            message.To.AddRange(addressList.Select(x =>
+            message.To.AddRange(listOfEmails.Select(x =>
             {
-                return new MailboxAddress("Dev", x);
+                return new MailboxAddress("Dev", x.Email);
             }));
 
 
@@ -71,6 +74,11 @@ namespace codenation.checker.Api.Services
             };
 
             return message;
+        }
+
+        private async Task<List<CodenationUser>> GetEmails()
+        {
+            return await _context.CodenationUsers.AsNoTracking().ToListAsync();
         }
 
     }

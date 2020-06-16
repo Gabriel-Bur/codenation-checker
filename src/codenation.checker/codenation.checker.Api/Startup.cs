@@ -1,8 +1,9 @@
+using codenation.checker.Api.Context;
 using codenation.checker.Api.Interfaces;
-using codenation.checker.Api.Models;
 using codenation.checker.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,8 +25,12 @@ namespace codenation.checker.Api
         {
             services.AddControllers();
 
-            services.AddSingleton<IEmailSender, EmailSenderService>();
-            services.AddSingleton<ICodenationApiClient, CodenationApiClientService>();
+            services.AddSingleton<IEmailSenderService, EmailSenderService>();
+            services.AddSingleton<ICodenationApiClientService, CodenationApiClientService>();
+
+            //Database
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddHostedService<CodenationBackgroundService>();
 

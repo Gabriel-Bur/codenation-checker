@@ -1,19 +1,22 @@
 ﻿using codenation.checker.Api.Interfaces;
+using codenation.checker.Api.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace codenation.checker.Api.Services
+namespace codenation.checker.Api.Configuration
 {
-    public class CodenationBackgroundService : IHostedService, IDisposable
+    public class CodenationBackgroundSetup : IDisposable, IHostedService
     {
+        private const int RunIntervalInMinutes = 59;
+
         private readonly ICodenationApiClientService _codenationApiClient;
         private readonly ILogger _logger;
         private Timer _timer;
 
-        public CodenationBackgroundService(
+        public CodenationBackgroundSetup(
             ILogger<CodenationBackgroundService> logger,
             ICodenationApiClientService codenationApiClient)
         {
@@ -33,8 +36,7 @@ namespace codenation.checker.Api.Services
         {
             _logger.LogInformation("Timed Background Service is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromMinutes(2));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(RunIntervalInMinutes));
 
             return Task.CompletedTask;
         }
