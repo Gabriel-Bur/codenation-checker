@@ -10,7 +10,7 @@ namespace codenation.checker.Api.Configuration
 {
     public class CodenationBackgroundSetup : IDisposable, IHostedService
     {
-        private const int RunIntervalInMinutes = 59;
+        private const int RunIntervalInMinutes = 10;
 
         private readonly ICodenationApiClientService _codenationApiClient;
         private readonly ILogger _logger;

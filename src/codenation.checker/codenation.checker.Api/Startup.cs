@@ -30,7 +30,8 @@ namespace codenation.checker.Api
 
             //Database
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
+                ServiceLifetime.Singleton);
 
             services.AddHostedService<CodenationBackgroundService>();
 

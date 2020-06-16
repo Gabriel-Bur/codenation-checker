@@ -9,8 +9,6 @@ namespace codenation.checker.Api.Context
 
         public DatabaseContext(DbContextOptions options) : base(options)
         {
-            this.Database.EnsureCreated();
         }
-
     }
 }
